@@ -1,36 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+  <meta charset="UTF-8">
   <title>Monitoramento de Sala</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <div class="container">
+    <h1>📡 Monitoramento de Sala</h1>
 
-<h1 id="status">Carregando...</h1>
+    <div id="status" class="status livre">
+      Carregando...
+    </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+    <p>🕒 Última atividade: <span id="atividade">--</span></p>
+    <p>⏱ Tempo sem movimento: <span id="tempo">--</span></p>
+  </div>
 
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "monitoramento-sala.firebaseapp.com",
-  databaseURL: "https://monitoramento-sala-default-rtdb.firebaseio.com",
-  projectId: "monitoramento-sala"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// caminho do banco
-const statusRef = ref(db, 'sala/status');
-
-// ouvir mudanças
-onValue(statusRef, (snapshot) => {
-  const status = snapshot.val();
-  document.getElementById("status").innerText =
-    status === "ocupado" ? "🔴 Sala ocupada" : "🟢 Sala livre";
-});
-</script>
-
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
