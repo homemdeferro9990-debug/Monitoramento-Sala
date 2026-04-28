@@ -1,28 +1,39 @@
+// CONFIG DO FIREBASE (já coloquei a sua)
 const firebaseConfig = {
-  apiKey: "AIzaSyB8R_giZvIictpa3pU2CJLS8GGSenIu51A",
+  apiKey: "AIzaSyB8R_gizVictpa3pU2CJL8SGSGenIu51A",
   authDomain: "monitoramento-sala-1c356.firebaseapp.com",
   databaseURL: "https://monitoramento-sala-1c356-default-rtdb.firebaseio.com",
-  projectId: "monitoramento-sala-1c356",
+  projectId: "monitoramento-sala-1c356"
 };
 
+// Inicializa Firebase
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.database();
 
+// Escuta dados em tempo real
 db.ref("sala").on("value", (snapshot) => {
   const data = snapshot.val();
 
+  const statusDiv = document.getElementById("status");
+
   if (!data) {
-    document.getElementById("status").innerText = "Sem dados";
+    statusDiv.innerText = "Sem dados";
     return;
   }
 
-  document.getElementById("status").innerText =
-    data.ocupado ? "🔴 Sala Ocupada" : "🟢 Sala Livre";
+  // STATUS
+  if (data.status === "ocupado") {
+    statusDiv.innerText = "🔴 Sala Ocupada";
+    statusDiv.className = "status ocupado";
+  } else {
+    statusDiv.innerText = "🟢 Sala Livre";
+    statusDiv.className = "status livre";
+  }
 
+  // OUTRAS INFOS
   document.getElementById("atividade").innerText =
-    data.ultima;
+    data.ultima_atividade || "--";
 
   document.getElementById("tempo").innerText =
-    data.tempo + " min";
+    (data.tempo_sem_movimento || 0) + " min";
 });
