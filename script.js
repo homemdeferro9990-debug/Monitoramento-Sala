@@ -12,8 +12,17 @@ const db = firebase.database();
 db.ref("sala").on("value", (snapshot) => {
   const data = snapshot.val();
 
-  if (!data) return;
+  if (!data) {
+    document.getElementById("status").innerText = "Sem dados";
+    return;
+  }
 
   document.getElementById("status").innerText =
     data.ocupado ? "🔴 Sala Ocupada" : "🟢 Sala Livre";
+
+  document.getElementById("atividade").innerText =
+    data.ultima;
+
+  document.getElementById("tempo").innerText =
+    data.tempo + " min";
 });
