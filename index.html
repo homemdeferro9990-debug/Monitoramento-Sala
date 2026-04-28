@@ -1,6 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitoramento de Sala</title>
+</head>
+
+<body>
+
+<h1>📡 Monitoramento de Sala</h1>
+
+<div id="status">Carregando...</div>
+
+<p>Última atividade: <span id="atividade">--</span></p>
+<p>Tempo: <span id="tempo">--</span></p>
+
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-<!-- Seu script -->
-<script src="script.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB8R_giZvIictpa3pU2CJLS8GGSenIu51A",
+  authDomain: "monitoramento-sala-1c356.firebaseapp.com",
+  databaseURL: "https://monitoramento-sala-1c356-default-rtdb.firebaseio.com",
+  projectId: "monitoramento-sala-1c356"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+
+db.ref("sala").on("value", (snapshot) => {
+  const data = snapshot.val();
+
+  if (!data) {
+    document.getElementById("status").innerText = "Sem dados";
+    return;
+  }
+
+  document.getElementById("status").innerText =
+    data.ocupado ? "🔴 Sala Ocupada" : "🟢 Sala Livre";
+
+  document.getElementById("atividade").innerText = data.ultima;
+  document.getElementById("tempo").innerText = data.tempo + " min";
+});
+</script>
+
+</body>
+</html>
