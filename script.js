@@ -1,7 +1,8 @@
 const firebaseConfig = {
-  apiKey: "SUA_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+  apiKey: "AIzaSyB8R_giZvIictpa3pU2CJLS8GGSenIu51A",
+  authDomain: "monitoramento-sala-1c356.firebaseapp.com",
+  databaseURL: "https://monitoramento-sala-1c356-default-rtdb.firebaseio.com",
+  projectId: "monitoramento-sala-1c356",
 };
 
 firebase.initializeApp(firebaseConfig);
