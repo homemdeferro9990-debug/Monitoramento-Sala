@@ -1,32 +1,33 @@
-// CONFIGURE COM OS DADOS DO FIREBASE
-var firebaseConfig = {
+// CONFIG FIREBASE (troca pelos seus dados)
+const firebaseConfig = {
   apiKey: "SUA_API_KEY",
-  databaseURL: "SUA_DATABASE_URL"
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+  projectId: "SEU_PROJETO",
 };
 
+// Inicializa
 firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
+const db = firebase.database();
 
-// ESCUTA MUDANÇAS EM TEMPO REAL
+// Lê dados
 db.ref("sala").on("value", (snapshot) => {
-  let dados = snapshot.val();
+  const data = snapshot.val();
 
-  if (!dados) return;
-
-  let status = dados.status;
-  let atividade = dados.ultima_atividade;
-  let tempo = dados.tempo_sem_movimento;
-
-  let statusDiv = document.getElementById("status");
-
-  statusDiv.innerText = status.toUpperCase();
-
-  if (status === "ocupado") {
-    statusDiv.className = "status ocupado";
-  } else {
-    statusDiv.className = "status livre";
+  if (!data) {
+    document.getElementById("status").innerText = "Sem dados";
+    return;
   }
 
-  document.getElementById("atividade").innerText = atividade;
-  document.getElementById("tempo").innerText = tempo + " min";
+  document.getElementById("status").innerText =
+    data.ocupado ? "🔴 Sala Ocupada" : "🟢 Sala Livre";
+
+  document.getElementById("status").className =
+    data.ocupado ? "status ocupado" : "status livre";
+
+  document.getElementById("atividade").innerText =
+    data.ultima;
+
+  document.getElementById("tempo").innerText =
+    data.tempo + " min";
 });
