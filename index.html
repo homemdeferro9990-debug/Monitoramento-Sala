@@ -3,28 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Monitoramento de Sala</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      margin-top: 100px;
-    }
-
-    .ocupado {
-      color: red;
-      font-size: 40px;
-    }
-
-    .livre {
-      color: green;
-      font-size: 40px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Status da Sala</h1>
-  <div id="status">Carregando...</div>
+  <div class="container">
+    <h1>Status da Sala</h1>
+
+    <div id="status" class="status">
+      Carregando...
+    </div>
+
+    <p id="tempo"></p>
+  </div>
 
   <script>
     const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/Página1";
@@ -36,14 +27,21 @@
           let ultimo = data[data.length - 1];
 
           let statusDiv = document.getElementById("status");
+          let tempo = document.getElementById("tempo");
 
           if (ultimo.status === "ocupado") {
-            statusDiv.innerHTML = "🔴 Sala Ocupada";
-            statusDiv.className = "ocupado";
+            // TEM GENTE
+            statusDiv.innerText = "🟢 Disponível";
+            statusDiv.className = "status livre";
           } else {
-            statusDiv.innerHTML = "🟢 Sala Livre";
-            statusDiv.className = "livre";
+            // NÃO TEM GENTE
+            statusDiv.innerText = "🔴 Indisponível";
+            statusDiv.className = "status ocupado";
           }
+
+          tempo.innerText =
+            "Tempo ativo: " + ultimo.tempo_ativo + "s | " +
+            "Tempo inativo: " + ultimo.tempo_inativo + "s";
         });
     }
 
