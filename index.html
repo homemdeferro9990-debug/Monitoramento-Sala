@@ -3,26 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <title>Monitoramento de Sala</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .ocupado {
+      color: red;
+      font-size: 40px;
+    }
+
+    .livre {
+      color: green;
+      font-size: 40px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>📡 Monitoramento de Sala</h1>
+  <h1>Status da Sala</h1>
+  <div id="status">Carregando...</div>
 
-    <div id="status" class="status">
-      Carregando...
-    </div>
+  <script>
+    const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/Página1";
 
-    <p>🕒 Última atividade: <span id="atividade">--</span></p>
-    <p>⏱ Tempo sem movimento: <span id="tempo">--</span></p>
-  </div>
+    function atualizar() {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          let ultimo = data[data.length - 1];
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+          let statusDiv = document.getElementById("status");
 
-  <!-- Seu script -->
-  <script src="script.js"></script>
+          if (ultimo.status === "ocupado") {
+            statusDiv.innerHTML = "🔴 Sala Ocupada";
+            statusDiv.className = "ocupado";
+          } else {
+            statusDiv.innerHTML = "🟢 Sala Livre";
+            statusDiv.className = "livre";
+          }
+        });
+    }
+
+    setInterval(atualizar, 5000);
+    atualizar();
+  </script>
 </body>
 </html>
