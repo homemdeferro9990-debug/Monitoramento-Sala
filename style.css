@@ -19,11 +19,11 @@ body {
 }
 
 .livre {
-  background: #22c55e;
+  background: #22c55e; /* verde */
 }
 
 .ocupado {
-  background: #ef4444;
+  background: #ef4444; /* vermelho */
 }
 
 p {
