@@ -1,91 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monitoramento da Sala</title>
-
-<style>
-
-body{
-    background:#0f172a;
-    color:white;
-    font-family:Arial;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-}
-
-.card{
-    background:#1e293b;
-    padding:40px;
-    border-radius:20px;
-    text-align:center;
-    width:350px;
-}
-
-.status{
-    font-size:28px;
-    margin-top:20px;
-    color:#38bdf8;
-}
-
-.horario{
-    margin-top:15px;
-    color:#cbd5e1;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <title>Monitoramento</title>
 </head>
-
-<body>
-
-<div class="card">
+<body style="background:black;color:white;font-family:Arial;text-align:center;padding-top:100px;">
 
     <h1>Monitoramento da Sala</h1>
 
-    <div class="status" id="status">
-        Carregando...
-    </div>
+    <h2 id="status">Carregando...</h2>
 
-    <div class="horario" id="horario"></div>
-
-</div>
+    <p id="horario"></p>
 
 <script>
-
-const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1";
 
 async function carregar(){
 
     try{
 
-        const resposta = await fetch(url);
+        const resposta = await fetch(
+            "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1"
+        );
 
         const dados = await resposta.json();
 
         console.log(dados);
 
-        if(dados.length > 0){
+        const ultimo = dados[dados.length - 1];
 
-            const ultimo = dados[dados.length - 1];
+        const valores = Object.values(ultimo);
 
-            const valores = Object.values(ultimo);
+        document.getElementById("status").innerText = valores[1];
 
-            document.getElementById("status").innerText = valores[1];
-            document.getElementById("horario").innerText = valores[0];
+        document.getElementById("horario").innerText = valores[0];
 
-        }else{
+    }catch(erro){
 
-            document.getElementById("status").innerText = "Sem dados";
-
-        }
-
-    }catch(e){
-
-        console.log(e);
+        console.log(erro);
 
         document.getElementById("status").innerText = "Erro ao carregar";
 
