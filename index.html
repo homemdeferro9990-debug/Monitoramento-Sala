@@ -1,52 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Monitoramento de Sala</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento da Sala</title>
+
+    <style>
+        body{
+            background:#0f172a;
+            color:white;
+            font-family:Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+
+        .card{
+            background:#1e293b;
+            padding:40px;
+            border-radius:20px;
+            text-align:center;
+            width:350px;
+            box-shadow:0 0 20px rgba(0,0,0,0.4);
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        .status{
+            font-size:30px;
+            margin:20px 0;
+            color:#38bdf8;
+        }
+
+        .horario{
+            color:#cbd5e1;
+            font-size:18px;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Status da Sala</h1>
 
-    <div id="status" class="status">
-      Carregando...
+    <div class="card">
+        <h1>Monitoramento da Sala</h1>
+
+        <div class="status" id="status">
+            Carregando...
+        </div>
+
+        <div class="horario" id="horario"></div>
     </div>
 
-    <p id="tempo"></p>
-  </div>
+    <script>
 
-  <script>
-    const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/Página1";
+        const sheetID = "1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc";
 
-    function atualizar() {
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          let ultimo = data[data.length - 1];
+        const url = `https://opensheet.elk.sh/${sheetID}/Página1`;
 
-          let statusDiv = document.getElementById("status");
-          let tempo = document.getElementById("tempo");
+        async function carregarDados(){
 
-          if (ultimo.status === "ocupado") {
-            // TEM GENTE
-            statusDiv.innerText = "🟢 Disponível";
-            statusDiv.className = "status livre";
-          } else {
-            // NÃO TEM GENTE
-            statusDiv.innerText = "🔴 Indisponível";
-            statusDiv.className = "status ocupado";
-          }
+            try{
 
-          tempo.innerText =
-            "Tempo ativo: " + ultimo.tempo_ativo + "s | " +
-            "Tempo inativo: " + ultimo.tempo_inativo + "s";
-        });
-    }
+                const resposta = await fetch(url);
+                const dados = await resposta.json();
 
-    setInterval(atualizar, 5000);
-    atualizar();
-  </script>
+                const ultimo = dados[dados.length - 1];
+
+                document.getElementById("status").innerText = ultimo[Object.keys(ultimo)[1]];
+                document.getElementById("horario").innerText = ultimo[Object.keys(ultimo)[0]];
+
+            }catch(erro){
+
+                document.getElementById("status").innerText = "Erro ao carregar";
+
+            }
+        }
+
+        carregarDados();
+
+        setInterval(carregarDados, 5000);
+
+    </script>
+
 </body>
 </html>
