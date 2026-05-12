@@ -26,10 +26,10 @@
 
         .container{
             background:#1e293b;
-            width:400px;
+            width:420px;
             padding:40px;
             border-radius:20px;
-            box-shadow:0 0 25px rgba(0,0,0,0.4);
+            box-shadow:0 0 30px rgba(0,0,0,0.5);
             text-align:center;
         }
 
@@ -42,25 +42,24 @@
             background:#0f172a;
             padding:25px;
             border-radius:15px;
-            margin-bottom:20px;
         }
 
-        .status-title{
-            font-size:18px;
+        .titulo{
             color:#94a3b8;
-            margin-bottom:10px;
+            font-size:18px;
+            margin-bottom:15px;
         }
 
         .status{
-            font-size:30px;
+            font-size:32px;
             color:#38bdf8;
             font-weight:bold;
         }
 
         .horario{
-            margin-top:20px;
-            color:#cbd5e1;
+            margin-top:25px;
             font-size:18px;
+            color:#cbd5e1;
         }
 
         .online{
@@ -80,8 +79,8 @@
 
         <div class="status-box">
 
-            <div class="status-title">
-                Último Evento
+            <div class="titulo">
+                Último Movimento Detectado
             </div>
 
             <div class="status" id="status">
@@ -95,38 +94,40 @@
         </div>
 
         <div class="online">
-            Atualização automática ativa
+            Sistema online • Atualização automática
         </div>
 
     </div>
 
 <script>
 
-const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1";
+const url =
+"https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1";
 
 async function atualizarDados(){
 
     try{
 
-        const resposta = await fetch(url + "?t=" + Date.now());
+        const resposta = await fetch(url);
 
         const dados = await resposta.json();
 
         console.log(dados);
 
-        if(dados && dados.length > 0){
+        if(dados.length > 0){
 
             const ultimo = dados[dados.length - 1];
 
             document.getElementById("status").innerText =
-                ultimo["Movimentos "] || "Sem status";
+                ultimo["Movimentos "];
 
             document.getElementById("horario").innerText =
-                "Horário: " + (ultimo["Status e Data"] || "--");
+                "Horário: " + ultimo["Status e Data"];
 
         }else{
 
-            document.getElementById("status").innerText = "Sem dados";
+            document.getElementById("status").innerText =
+                "Sem dados";
 
         }
 
@@ -134,7 +135,8 @@ async function atualizarDados(){
 
         console.log(erro);
 
-        document.getElementById("status").innerText = "Erro ao carregar";
+        document.getElementById("status").innerText =
+            "Erro ao carregar";
 
     }
 
