@@ -119,7 +119,7 @@ async function atualizarDados(){
             const ultimo = dados[dados.length - 1];
 
             document.getElementById("status").innerText =
-                ultimo["Movimentos"] || "Sem status";
+                ultimo["Movimentos "] || "Sem status";
 
             document.getElementById("horario").innerText =
                 "Horário: " + (ultimo["Status e Data"] || "--");
