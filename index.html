@@ -1,10 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoramento da Sala</title>
+
+<style>
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.card{
+    background:#1e293b;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    width:350px;
+}
+
+.status{
+    font-size:28px;
+    margin-top:20px;
+    color:#38bdf8;
+}
+
+.horario{
+    margin-top:15px;
+    color:#cbd5e1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>Monitoramento da Sala</h1>
+
+    <div class="status" id="status">
+        Carregando...
+    </div>
+
+    <div class="horario" id="horario"></div>
+
+</div>
+
 <script>
 
-const sheetID = "1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc";
+const url = "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1";
 
-const url = `https://opensheet.elk.sh/${sheetID}/Página1`;
-
-async function carregarDados(){
+async function carregar(){
 
     try{
 
@@ -29,9 +83,9 @@ async function carregarDados(){
 
         }
 
-    }catch(erro){
+    }catch(e){
 
-        console.log(erro);
+        console.log(e);
 
         document.getElementById("status").innerText = "Erro ao carregar";
 
@@ -39,8 +93,11 @@ async function carregarDados(){
 
 }
 
-carregarDados();
+carregar();
 
-setInterval(carregarDados, 5000);
+setInterval(carregar, 5000);
 
 </script>
+
+</body>
+</html>
