@@ -108,22 +108,21 @@ async function atualizarDados(){
 
     try{
 
-        const resposta = await fetch(url + "?t=" + new Date().getTime());
+        const resposta = await fetch(url + "?t=" + Date.now());
 
         const dados = await resposta.json();
 
         console.log(dados);
 
-        if(dados.length > 0){
+        if(dados && dados.length > 0){
 
             const ultimo = dados[dados.length - 1];
 
-            const valores = Object.values(ultimo);
-
-            document.getElementById("status").innerText = valores[1];
+            document.getElementById("status").innerText =
+                ultimo["Movimentos"] || "Sem status";
 
             document.getElementById("horario").innerText =
-                "Horário: " + valores[0];
+                "Horário: " + (ultimo["Status e Data"] || "--");
 
         }else{
 
