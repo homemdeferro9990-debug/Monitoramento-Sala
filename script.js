@@ -1,8 +1,6 @@
 const url =
 "https://opensheet.elk.sh/1zpkk971HTSDc9QPBw6GJSGmD8LWrpLo9uHOMsyqEkpc/P%C3%A1gina1";
 
-let ultimoHorario = "";
-
 async function atualizarDados(){
 
     try{
@@ -20,34 +18,22 @@ async function atualizarDados(){
             const ultimo =
             dados[dados.length - 1];
 
-            // pega os nomes reais das colunas
             const horario =
             ultimo["Status e Data"];
 
             const movimento =
-            ultimo["Movimentos "];
+            ultimo["Movimentos"];
 
-            if(horario !== ultimoHorario){
+            document.getElementById("status").innerText =
+            movimento;
 
-                ultimoHorario = horario;
+            document.getElementById("horario").innerText =
+            "Horário: " + horario;
 
-                document.getElementById("status").innerText =
-                movimento;
+        }else{
 
-                document.getElementById("horario").innerText =
-                "Horário: " + horario;
-
-                document.querySelector(".status-box").style.transform =
-                "scale(1.03)";
-
-                setTimeout(() => {
-
-                    document.querySelector(".status-box").style.transform =
-                    "scale(1)";
-
-                },200);
-
-            }
+            document.getElementById("status").innerText =
+            "Sem dados";
 
         }
 
