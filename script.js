@@ -13,30 +13,36 @@ async function atualizarDados(){
         const dados =
         await resposta.json();
 
+        console.log(dados);
+
         if(dados.length > 0){
 
             const ultimo =
             dados[dados.length - 1];
 
-            const horarioNovo =
+            // pega os nomes reais das colunas
+            const horario =
             ultimo["Status e Data"];
 
-            if(horarioNovo !== ultimoHorario){
+            const movimento =
+            ultimo["Movimentos "];
 
-                ultimoHorario = horarioNovo;
+            if(horario !== ultimoHorario){
+
+                ultimoHorario = horario;
 
                 document.getElementById("status").innerText =
-                ultimo["Movimentos "];
+                movimento;
 
                 document.getElementById("horario").innerText =
-                "Horário: " + horarioNovo;
+                "Horário: " + horario;
 
-                document.querySelector(".card").style.transform =
-                "scale(1.02)";
+                document.querySelector(".status-box").style.transform =
+                "scale(1.03)";
 
                 setTimeout(() => {
 
-                    document.querySelector(".card").style.transform =
+                    document.querySelector(".status-box").style.transform =
                     "scale(1)";
 
                 },200);
