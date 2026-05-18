@@ -7,35 +7,39 @@ async function atualizarDados(){
 
     try{
 
-        const resposta = await fetch(url + "?t=" + Date.now());
+        const resposta =
+        await fetch(url + "?t=" + Date.now());
 
-        const dados = await resposta.json();
+        const dados =
+        await resposta.json();
 
         if(dados.length > 0){
 
-            const ultimo = dados[dados.length - 1];
+            const ultimo =
+            dados[dados.length - 1];
 
-            const horarioNovo = ultimo["Status e Data"];
+            const horarioNovo =
+            ultimo["Status e Data"];
 
             if(horarioNovo !== ultimoHorario){
 
                 ultimoHorario = horarioNovo;
 
                 document.getElementById("status").innerText =
-                    ultimo["Movimentos "];
+                ultimo["Movimentos "];
 
                 document.getElementById("horario").innerText =
-                    "Horário: " + horarioNovo;
+                "Horário: " + horarioNovo;
 
-                document.querySelector(".status-box").style.transform =
-                    "scale(1.03)";
+                document.querySelector(".card").style.transform =
+                "scale(1.02)";
 
                 setTimeout(() => {
 
-                    document.querySelector(".status-box").style.transform =
-                        "scale(1)";
+                    document.querySelector(".card").style.transform =
+                    "scale(1)";
 
-                }, 200);
+                },200);
 
             }
 
@@ -46,12 +50,12 @@ async function atualizarDados(){
         console.log(erro);
 
         document.getElementById("status").innerText =
-            "Erro ao carregar";
+        "Erro ao carregar";
 
     }
 
 }
 
-setInterval(atualizarDados, 1000);
-
 atualizarDados();
+
+setInterval(atualizarDados,1000);
